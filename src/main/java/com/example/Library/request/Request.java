@@ -9,5 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class Request {
 
+
     private String filter;
+    private String authorFullName;
+    private double minRating;
+    private double maxRating;
+
 }

@@ -16,11 +16,28 @@ public class BookController {
 
     private final BookService bookService;
 
-    @PostMapping("/byTitle")
+    @PostMapping("/title")
     public ResponseEntity<Response> getByTitle(@RequestBody Request request) {
- String vienas ;
-        ResponseEntity<Response> booksByTitle = bookService.getByTitle(request.getFilter());
-        return booksByTitle;
+        ResponseEntity<Response> response = bookService.getByTitle(request.getFilter());
+        return response;
     }
 
+    @GetMapping("/year{filter}")
+    public ResponseEntity<Response> getByYear(@PathVariable int filter) {
+        ResponseEntity<Response> response = bookService.getByYear(filter);
+        return response;
+    }
+
+    @PostMapping("/author")
+    public ResponseEntity<Response> getByAuthor(@RequestBody Request request) {
+        ResponseEntity<Response> response = bookService.getByAuthor(request);
+        return response;
+    }
+
+
+    @PostMapping("/rating")
+    public ResponseEntity<Response> getByRating(@RequestBody Request request) {
+        ResponseEntity<Response> response = bookService.getInRange(request);
+        return response;
+    }
 }
