@@ -41,7 +41,7 @@ public class BookService {
         if (title == null) {
             return new ResponseEntity<Response>(new Response("Not founded", null), HttpStatus.BAD_REQUEST);
         }
-        List<Book> booksByYear = bookRepository.findByTitle(title);
+        List<Book> booksByYear = bookRepository.findByTitleContains(title);
         return new ResponseEntity<>(new Response("Ok", booksByYear), HttpStatus.OK);
     }
 }

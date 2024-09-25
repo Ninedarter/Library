@@ -1,10 +1,14 @@
 package com.example.Library.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Book {
 
     @Id
@@ -16,7 +20,12 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
-
     private int rating;
 
+    public Book(String title, int publicationYear, Author author, int rating) {
+        this.title = title;
+        this.publicationYear = publicationYear;
+        this.author = author;
+        this.rating = rating;
+    }
 }
