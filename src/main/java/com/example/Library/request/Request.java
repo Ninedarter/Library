@@ -1,13 +1,18 @@
 package com.example.Library.request;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Request {
 
-    private Long id;
-    private String title;
-    private int publicationYear;
-    private Long authorId;
-    private int rating;
+
+    private String filter;
+    private String authorFullName;
+    private double minRating;
+    private double maxRating;
+
 }

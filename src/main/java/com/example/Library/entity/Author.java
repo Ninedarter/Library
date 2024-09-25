@@ -1,5 +1,6 @@
 package com.example.Library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,15 +17,16 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String names;
-    private String surnames;
+    private String name;
+    private String surname;
 
     @OneToMany(mappedBy = "author")
+    @JsonIgnore
     private List<Book> books;
 
-    public Author(String names, String surnames, List<Book> books) {
-        this.names = names;
-        this.surnames = surnames;
+    public Author(String name, String surname, List<Book> books) {
+        this.name = name;
+        this.surname = surname;
         this.books = books;
     }
 
