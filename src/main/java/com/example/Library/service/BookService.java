@@ -39,15 +39,15 @@ public class BookService {
             return new ResponseEntity<Response>(new Response("Input cannot be null", null), HttpStatus.BAD_REQUEST);
         }
         String[] fullNameSeparated = request.getAuthorFullName().split(" ");
-        List<Book> byAuthor_nameAndAuthor_surname = bookRepository.findByAuthor_NameAndAuthor_Surname(fullNameSeparated[0], fullNameSeparated[1]);
-        if (byAuthor_nameAndAuthor_surname.isEmpty()) {
+        List<Book> booksByAuthor = bookRepository.findByAuthor_NameAndAuthor_Surname(fullNameSeparated[0], fullNameSeparated[1]);
+        if (booksByAuthor.isEmpty()) {
             return new ResponseEntity<>(new Response("No data found by this author", null), HttpStatus.OK);
         }
-        return new ResponseEntity<>(new Response("Ok", byAuthor_nameAndAuthor_surname), HttpStatus.OK);
+        return new ResponseEntity<>(new Response("Ok", booksByAuthor), HttpStatus.OK);
     }
 
     public ResponseEntity<Response> getInRange(Request request) {
-        if (request.getMinRating() < 0 || request.getMinRating() > 10 || request.getMaxRating() < request.getMinRating() || request.getMaxRating() > 10) {
+        if (request.getMinRating() < 1 || request.getMinRating() > 5 || request.getMaxRating() < request.getMinRating() || request.getMaxRating() > 5) {
             return new ResponseEntity<Response>(new Response("Wrongly chosen ranges", null), HttpStatus.OK);
         }
         List<Book> booksByYear = bookRepository.findByRatingBetween(request.getMinRating(), request.getMaxRating());
