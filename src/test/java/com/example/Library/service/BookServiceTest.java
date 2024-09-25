@@ -12,12 +12,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
@@ -123,7 +121,6 @@ class BookServiceTest {
         ResponseEntity<Response> response = bookService.getInRange(request);
         assertEquals("Wrongly chosen ranges", response.getBody().getMessage());
     }
-
 
     @Test
     void shouldReturnSpecificMessageWhenMaxRangeIsOver5() {
