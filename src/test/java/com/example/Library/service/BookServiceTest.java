@@ -12,10 +12,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
@@ -78,7 +80,7 @@ class BookServiceTest {
         assertEquals(2, response.getBody().getBooks().size());
     }
 
-    //by author
+
     @Test
     void shouldReturnSpecificMessageWhenTitleIsNull() {
         ResponseEntity<Response> response = bookService.getByTitle(null);
@@ -112,7 +114,8 @@ class BookServiceTest {
         Request request = new Request(null, "Anthony Bosh", 0, 0);
         when(bookRepository.findByAuthor_NameAndAuthor_Surname("Anthony", "Bosh")).thenReturn(null);
         ResponseEntity<Response> response = bookService.getByAuthor(request);
-        assertNull(response.getBody().getBooks());
+        assertEquals("No data found by this author", response.getBody().getMessage());
+
     }
 
     @Test

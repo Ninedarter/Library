@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class BookService {
         if (title == null) {
             return new ResponseEntity<Response>(new Response("Input cannot be null", null), HttpStatus.BAD_REQUEST);
         }
+        title = title.trim();
         List<Book> booksByYear = bookRepository.findByTitleContains(title);
         return new ResponseEntity<>(new Response("Ok", booksByYear), HttpStatus.OK);
     }
@@ -39,7 +41,7 @@ public class BookService {
         }
         String[] fullNameSeparated = request.getAuthorFullName().split(" ");
         List<Book> booksByAuthor = bookRepository.findByAuthor_NameAndAuthor_Surname(fullNameSeparated[0], fullNameSeparated[1]);
-        if (booksByAuthor.isEmpty()) {
+        if (booksByAuthor == null) {
             return new ResponseEntity<>(new Response("No data found by this author", null), HttpStatus.OK);
         }
         return new ResponseEntity<>(new Response("Ok", booksByAuthor), HttpStatus.OK);
