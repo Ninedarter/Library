@@ -20,4 +20,18 @@ public class Request {
     private String titleOfBookToRate;
     private double ratingValue;
 
+
+    public Request(String authorFullName) {
+        this.authorFullName = authorFullName;
+    }
+
+    public Request(double minRating, double maxRating) {
+        this.minRating = minRating;
+        this.maxRating = maxRating;
+    }
+
+    public Request(String titleOfBookToRate, double ratingValue) {
+        this.titleOfBookToRate = titleOfBookToRate;
+        this.ratingValue = ratingValue;
+    }
 }

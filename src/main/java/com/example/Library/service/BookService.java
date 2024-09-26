@@ -72,7 +72,7 @@ public class BookService {
     }
 
     private static boolean rateValueInRange(Request request) {
-        return (request.getTitleOfBookToRate() != null && request.getRatingValue() >= 1 && request.getRatingValue() <= 5);
+        return (request.getRatingValue() >= 1 && request.getRatingValue() <= 5);
     }
 
     private Book findByTitle(String title) {
@@ -82,7 +82,7 @@ public class BookService {
     private double calculateNewAverage(Book book, double rating) {
         double currentAverage = book.getAverageRating();
         int totalNumberOfRatings = book.getTotalRatings();
-        return (currentAverage * totalNumberOfRatings) + rating / (totalNumberOfRatings + 1);
+        return Math.round(((currentAverage * totalNumberOfRatings) + rating) / (totalNumberOfRatings + 1.0) * 100.0) / 100.0;
     }
 
 
