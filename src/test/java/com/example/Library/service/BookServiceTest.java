@@ -100,7 +100,7 @@ class BookServiceTest {
         Book book = new Book("Harry Potter", 1997, new Author("J.K", "Rowling", null));
         Book book2 = new Book("Harry Potter 2", 1998, new Author("J.K", "Rowling", null));
         List<Book> bookList = Arrays.asList(book, book2);
-        Request request = new Request("J.K Rowling");
+        Request request = new Request(null, "J.K Rowling");
         when(bookRepository.findByAuthor_NameAndAuthor_Surname("J.K", "Rowling")).thenReturn(bookList);
         ResponseEntity<Response> response = bookService.getByAuthor(request);
         assertEquals(2, response.getBody().getBooks().size());
@@ -111,7 +111,7 @@ class BookServiceTest {
     void shouldReturnSpecificMessageIfNoDataFoundByGivenAuthor() {
         Book book = new Book("Harry Potter", 1997, new Author("J.K", "Rowling", null));
         Book book2 = new Book("Harry Potter 2", 1998, new Author("J.K", "Rowling", null));
-        Request request = new Request("Anthony Bosh");
+        Request request = new Request(null,"Anthony Bosh");
         when(bookRepository.findByAuthor_NameAndAuthor_Surname("Anthony", "Bosh")).thenReturn(null);
         ResponseEntity<Response> response = bookService.getByAuthor(request);
         assertEquals("No data found by this author", response.getBody().getMessage());
@@ -161,13 +161,14 @@ class BookServiceTest {
     }
 
     @Test
-    void shouldReturnSpecificMessageWhenRateValueIsLessThan1(){
+    void shouldReturnSpecificMessageWhenRateValueIsLessThan1() {
         Request request = new Request("Harry Potter", 0.9);
         ResponseEntity<RateBookResponse> rateBookResponseResponseEntity = bookService.rateBook(request);
         assertEquals("Rating should be between 1 and 5", rateBookResponseResponseEntity.getBody().getMessage());
     }
+
     @Test
-    void shouldReturnSpecificMessageWhenBookToRateTitleIsNull(){
+    void shouldReturnSpecificMessageWhenBookToRateTitleIsNull() {
         Request request = new Request(null, 1);
         ResponseEntity<RateBookResponse> rateBookResponseResponseEntity = bookService.rateBook(request);
         assertEquals("Title cannot be null", rateBookResponseResponseEntity.getBody().getMessage());
