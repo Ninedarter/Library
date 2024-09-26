@@ -1,12 +1,8 @@
 package com.example.Library.request;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import lombok.AllArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,8 +17,8 @@ public class Request {
     private double ratingValue;
 
 
-    public Request(String authorFullName) {
-        this.authorFullName = authorFullName;
+    public Request(String filter) {
+        this.filter = filter;
     }
 
     public Request(double minRating, double maxRating) {
