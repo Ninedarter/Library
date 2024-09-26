@@ -4,6 +4,7 @@ import com.example.Library.entity.Author;
 import com.example.Library.entity.Book;
 import com.example.Library.repository.BookRepository;
 import com.example.Library.request.Request;
+import com.example.Library.response.RateBookResponse;
 import com.example.Library.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,8 +40,8 @@ class BookServiceTest {
     @Test
     void shouldFindBooksWhenYearsIsGiven() {
 
-        Book book = new Book(1L, "Java for dummies", 2022, 4, null);
-        Book book2 = new Book(2L, "Comedy", 2022, 4.9, null);
+        Book book = new Book("Java for dummies", 2022, null);
+        Book book2 = new Book("Comedy", 2022, null);
         List<Book> bookList = Arrays.asList(book, book2);
         int yearToFind = 2001;
         when(bookRepository.findByPublicationYear(yearToFind)).thenReturn(bookList);
@@ -50,8 +51,8 @@ class BookServiceTest {
 
     @Test
     void shouldReturnNullWhenYearIsLessThan0() {
-        Book book = new Book(1L, "Java for dummies", 2022, 4, null);
-        Book book2 = new Book(2L, "Comedy", 2022, 4.9, null);
+        Book book = new Book("Java for dummies", 2022, null);
+        Book book2 = new Book("Comedy", 2022, null);
         List<Book> bookList = Arrays.asList(book, book2);
         int yearToFind = -1;
         ResponseEntity<Response> response = bookService.getByYear(yearToFind);
@@ -60,8 +61,8 @@ class BookServiceTest {
 
     @Test
     void shouldReturnNullAndBadRequestStatusWhenYearIsMoreThanDateIsAfterToday() {
-        Book book = new Book(1L, "Java for dummies", 2022, 4, null);
-        Book book2 = new Book(2L, "Comedy", 2022, 4.9, null);
+        Book book = new Book("Java for dummies", 2022, null);
+        Book book2 = new Book("Comedy", 2022, null);
         List<Book> bookList = Arrays.asList(book, book2);
         int yearToFind = LocalDateTime.now().getYear() + 1;
         ResponseEntity<Response> response = bookService.getByYear(yearToFind);
@@ -72,8 +73,8 @@ class BookServiceTest {
     //bytitle
     @Test
     void shouldFindAllBooksWhenTitleIsContainingGivenSearchTitle() {
-        Book book = new Book(1L, "Harry Potter", 1996, 4, null);
-        Book book2 = new Book(2L, "Harry Potter 2", 1998, 4.9, null);
+        Book book = new Book("Harry Potter", 1997, null);
+        Book book2 = new Book("Harry Potter 2", 1998, null);
         List<Book> bookList = Arrays.asList(book, book2);
         when(bookRepository.findByTitleContains("Harry Potter")).thenReturn(bookList);
         ResponseEntity<Response> response = bookService.getByTitle("Harry Potter");
@@ -89,29 +90,28 @@ class BookServiceTest {
 
     @Test
     void shouldReturnSpecificMessageWhenGivenAuthorIsNull() {
-        Request request = new Request(null, null, 0, 0);
+        Request request = new Request(0, 0);
         ResponseEntity<Response> response = bookService.getByAuthor(request);
         assertEquals("Input cannot be null", response.getBody().getMessage());
     }
 
     @Test
     void shouldFindAllBooksByGivenAuthor() {
-        Book book = new Book(1L, "Harry Potter", 1996, 4, new Author("J.K", "Rowling", null));
-        Book book2 = new Book(2L, "Harry Potter 2", 1998, 4.9, new Author("J.K", "Rowling", null));
+        Book book = new Book("Harry Potter", 1997, new Author("J.K", "Rowling", null));
+        Book book2 = new Book("Harry Potter 2", 1998, new Author("J.K", "Rowling", null));
         List<Book> bookList = Arrays.asList(book, book2);
-        Request request = new Request(null, "J.K Rowling", 0, 0);
+        Request request = new Request("J.K Rowling");
         when(bookRepository.findByAuthor_NameAndAuthor_Surname("J.K", "Rowling")).thenReturn(bookList);
         ResponseEntity<Response> response = bookService.getByAuthor(request);
         assertEquals(2, response.getBody().getBooks().size());
-        assertEquals(1996, response.getBody().getBooks().get(0).getPublicationYear());
+        assertEquals(1997, response.getBody().getBooks().get(0).getPublicationYear());
     }
 
     @Test
     void shouldReturnSpecificMessageIfNoDataFoundByGivenAuthor() {
-        Book book = new Book(1L, "Harry Potter", 1996, 4, new Author("J.K", "Rowling", null));
-        Book book2 = new Book(2L, "Harry Potter 2", 1998, 4.9, new Author("J.K", "Rowling", null));
-        List<Book> bookList = Arrays.asList(book, book2);
-        Request request = new Request(null, "Anthony Bosh", 0, 0);
+        Book book = new Book("Harry Potter", 1997, new Author("J.K", "Rowling", null));
+        Book book2 = new Book("Harry Potter 2", 1998, new Author("J.K", "Rowling", null));
+        Request request = new Request("Anthony Bosh");
         when(bookRepository.findByAuthor_NameAndAuthor_Surname("Anthony", "Bosh")).thenReturn(null);
         ResponseEntity<Response> response = bookService.getByAuthor(request);
         assertEquals("No data found by this author", response.getBody().getMessage());
@@ -120,34 +120,57 @@ class BookServiceTest {
 
     @Test
     void shouldReturnSpecificMessageWhenMinRangeIsMinus1() {
-        Request request = new Request(null, null, -1.0, 5.0);
+        Request request = new Request(-1.0, 5.0);
         ResponseEntity<Response> response = bookService.getInRange(request);
         assertEquals("Wrongly chosen ranges", response.getBody().getMessage());
     }
 
     @Test
     void shouldReturnSpecificMessageWhenMaxRangeIsOver5() {
-        Request request = new Request(null, null, 1.0, 5.1);
+        Request request = new Request(1.0, 5.1);
         ResponseEntity<Response> response = bookService.getInRange(request);
         assertEquals("Wrongly chosen ranges", response.getBody().getMessage());
     }
 
     @Test
     void shouldReturnSpecificMessageWhenMinRangeLargerThanMaxRange() {
-        Request request = new Request(null, null, 2.9, 1.9);
+        Request request = new Request(2.9, 1.9);
         ResponseEntity<Response> response = bookService.getInRange(request);
         assertEquals("Wrongly chosen ranges", response.getBody().getMessage());
     }
 
     @Test
     void shouldReturnAllBooksInRangeOfRating() {
-        Book book = new Book(1L, "Harry Potter", 1996, 4, new Author("J.K", "Rowling", null));
-        Book book2 = new Book(2L, "Harry Potter 2", 1998, 4.9, new Author("J.K", "Rowling", null));
+        Book book = new Book("Harry Potter", 1997, new Author("J.K", "Rowling", null), 2, 3.9);
+        Book book2 = new Book("Harry Potter 2", 1998, new Author("J.K", "Rowling", null), 3, 3.5);
         List<Book> bookList = Arrays.asList(book, book2);
-        when(bookRepository.findByRatingBetween(1.0, 4.0)).thenReturn(bookList);
-        Request request = new Request(null, null, 1.0, 4.0);
+        when(bookRepository.findByAverageRatingBetween(1.0, 4.0)).thenReturn(bookList);
+        Request request = new Request(1.0, 4.0);
         ResponseEntity<Response> response = bookService.getInRange(request);
         assertEquals(2, response.getBody().getBooks().size());
         assertEquals("Harry Potter", response.getBody().getBooks().get(0).getTitle());
     }
+
+    @Test
+    void shouldChangeAverageAfterRate() {
+        Book book = new Book("Harry Potter", 1997, new Author("J.K", "Rowling", null), 2, 3.9);
+        when(bookRepository.findByTitle("Harry Potter")).thenReturn(book);
+        Request request = new Request("Harry Potter", 5.0);
+        ResponseEntity<RateBookResponse> rateBookResponseResponseEntity = bookService.rateBook(request);
+        assertEquals(4.27, rateBookResponseResponseEntity.getBody().getBook().getAverageRating());
+    }
+
+    @Test
+    void shouldReturnSpecificMessageWhenRateValueIsLessThan1(){
+        Request request = new Request("Harry Potter", 0.9);
+        ResponseEntity<RateBookResponse> rateBookResponseResponseEntity = bookService.rateBook(request);
+        assertEquals("Rating should be between 1 and 5", rateBookResponseResponseEntity.getBody().getMessage());
+    }
+    @Test
+    void shouldReturnSpecificMessageWhenBookToRateTitleIsNull(){
+        Request request = new Request(null, 1);
+        ResponseEntity<RateBookResponse> rateBookResponseResponseEntity = bookService.rateBook(request);
+        assertEquals("Title cannot be null", rateBookResponseResponseEntity.getBody().getMessage());
+    }
+
 }
