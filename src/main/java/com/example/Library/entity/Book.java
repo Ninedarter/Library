@@ -16,16 +16,25 @@ public class Book {
     private Long id;
     private String title;
     private int publicationYear;
-    private double rating;
+    private int totalRatings;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
+    private double averageRating;
 
-    public Book(String title, int publicationYear, Author author, int rating) {
+
+    public Book(String title, int publicationYear, Author author) {
         this.title = title;
         this.publicationYear = publicationYear;
         this.author = author;
-        this.rating = rating;
+    }
+
+    public Book(String title, int publicationYear, Author author, int totalRatings , double averageRating) {
+        this.title = title;
+        this.author = author;
+        this.publicationYear = publicationYear;
+        this.totalRatings = totalRatings;
+        this.averageRating = averageRating;
     }
 }
