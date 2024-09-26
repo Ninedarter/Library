@@ -1,6 +1,7 @@
 # Spring Boot REST API for Book Information
 
 This project is a Spring Boot REST API that provides information about books. The application stores data in an H2 in-memory database and allows clients to filter books by various criteria and rate them.
+Data is loaded then application is starting up from ApplicationConfig class
 
 ## Features
 
