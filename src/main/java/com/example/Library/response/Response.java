@@ -16,7 +16,6 @@ public class Response {
     private List<Book> books;
     private Book updatedBook;
 
-
     public Response(String message, List<Book> books) {
         this.message = message;
         this.books = books;
