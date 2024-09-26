@@ -29,34 +29,20 @@ public class ApplicationConfig {
             authorRepository.save(author1);
             Author author2 = new Author("Mike", "James", null);
             authorRepository.save(author2);
-            Author author3 = new Author("Chris", "Bosh", null);
-            authorRepository.save(author3);
-            Author author4 = new Author("Luka", "Doncic", null);
-            authorRepository.save(author4);
 
             List<Book> bookList = new ArrayList<>();
 
-            bookList.add(new Book("Book 1", 2001, author1, 5));
-            bookList.add(new Book("Book 2", 2002, author1, 4));
-            bookList.add(new Book("Book 3", 2003, author1, 3));
-            bookList.add(new Book("Book 4", 2004, author1, 5));
-            bookList.add(new Book("Book 5", 2005, author1, 4));
-            bookList.add(new Book("Book 6", 2006, author2, 2));
-            bookList.add(new Book("Book 7", 2007, author2, 3));
-            bookList.add(new Book("Book 8", 2008, author2, 5));
-            bookList.add(new Book("Book 9", 2009, author2, 4));
-            bookList.add(new Book("Book 10", 2010, author2, 3));
-            bookList.add(new Book("Book 11", 2011, author3, 5));
-            bookList.add(new Book("Book 12", 2012, author3, 4));
-            bookList.add(new Book("Book 13", 2013, author3, 5));
-            bookList.add(new Book("Book 14", 2014, author3, 3));
-            bookList.add(new Book("Book 15", 2015, author3, 4));
-            bookList.add(new Book("Book 16", 2016, author1, 2));
-            bookList.add(new Book("Book 17", 2017, author2, 5));
-            bookList.add(new Book("Book 18", 2018, author3, 3));
-            bookList.add(new Book("Book 19", 2019, author1, 4));
-            bookList.add(new Book("Book 20", 2020, author2, 4));
-            bookRepository.saveAll(bookList);
+            Book book1 = new Book("Book 1", 2001, author1, 2, 3.75);
+            Book book2 = new Book("Book 2", 2002, author1, 3, 4.16);
+            Book book3 = new Book("Book 3", 2003, author2, 2, 2);
+            Book book4 = new Book("Book 4", 2004, author2, 2, 1);
+            Book book5 = new Book("Book 5", 2005, author1, 4, 3.5);
+            Book book6 = new Book("Book 6", 2006, author2, 3, 3.66);
+            bookRepository.saveAll(List.of(book1, book2, book3, book4, book5, book6));
+
+
         };
+
     }
+
 }
