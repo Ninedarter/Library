@@ -21,6 +21,11 @@ public class Request {
         this.filter = filter;
     }
 
+    public Request(String filter, String authorFullName) {
+        this.filter = filter;
+        this.authorFullName = authorFullName;
+    }
+
     public Request(double minRating, double maxRating) {
         this.minRating = minRating;
         this.maxRating = maxRating;
