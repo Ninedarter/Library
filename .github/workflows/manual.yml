@@ -1,6 +1,6 @@
 # This is a basic workflow that is manually triggered
 
-name: Gitlab CI-CD
+name: Gitlab CI/CD
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -29,4 +29,4 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: trigger pipeline
-      run: fcurl -X POST --fail -F token=glptt-bab62978b559520094df4e5f314acc391db54d4f -F ref=master https://gitlab.com/api/v4/projects/62227248/trigger/pipeline
+      run: curl -X POST --fail -F token=glptt-bab62978b559520094df4e5f314acc391db54d4f -F ref=master https://gitlab.com/api/v4/projects/62227248/trigger/pipeline
