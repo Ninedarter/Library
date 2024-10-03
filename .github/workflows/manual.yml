@@ -28,5 +28,5 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ inputs.name }}"
+    - name: trigger pipeline
+    run: fcurl -X POST --fail -F token=glptt-bab62978b559520094df4e5f314acc391db54d4f -F ref=master https://gitlab.com/api/v4/projects/62227248/trigger/pipeline
