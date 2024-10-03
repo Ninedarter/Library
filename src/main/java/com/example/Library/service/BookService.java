@@ -118,7 +118,7 @@ public class BookService {
         int totalNumberOfRatings = book.getTotalRatings();
         return Math.round(((currentAverage * totalNumberOfRatings) + rating) / (totalNumberOfRatings + 1.0) * 100.0) / 100.0;
     }
-//fictional change
+//fictional change1
 
 }
 
