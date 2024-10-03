@@ -1,4 +1,6 @@
 FROM openjdk:17-jdk-alpine
+
+RUN apk add --no-cache maven
 WORKDIR /app
 COPY target/Library-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
